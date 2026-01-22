@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,9 +23,6 @@ import com.example.firstproject.ui.theme.FirstProjectTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.core.graphics.toColorInt
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +59,9 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
                 countLow++
                 last = "Low"
                 colorText = Color.Red
-            }) { Text("Low") }
+            },
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+                ) { Text("Low") }
         }
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
@@ -73,7 +73,10 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
                 countMedium++
                 last = "Medium"
                 colorText = Color.Blue
-            }) { Text("Medium") }
+            },
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Blue)
+            )
+            { Text("Medium") }
             Text(text = "Last Clicked Button $last", color = colorText)
         }
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -85,8 +88,10 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
             Button(onClick = {
                 countHigh++
                 last = "High"
-                colorText = Color.Blue
-            }) { Text("High") }
+                colorText = Color.Green
+            },
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Green)
+                ) { Text("High") }
         }
     }
 }
