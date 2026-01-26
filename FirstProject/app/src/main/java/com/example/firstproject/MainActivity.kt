@@ -8,6 +8,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Phone
@@ -77,7 +79,6 @@ class MainActivity : ComponentActivity() {
         logs.add("onDestroy")
     }
 }
-
 @Composable
 fun MainScreen(
     logs: List<String>,
@@ -85,11 +86,12 @@ fun MainScreen(
 ) {
     Column(
         modifier = modifier
-            .padding(top = 200.dp),
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()), // ✅ IMPORTANT
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(200.dp))
 
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Image(
@@ -102,18 +104,19 @@ fun MainScreen(
                 text = "Barbara Millicent Roberts",
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFFF5276C)
+                color = Color(0xFFF5276C),
+                textAlign = TextAlign.Center
             )
 
             Text(
-                text = "Im a Barbie Girl",
+                text = "I'm a Barbie Girl",
                 fontSize = 16.sp,
                 color = Color(0xFFF5276C),
                 textAlign = TextAlign.Center
             )
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(150.dp))
 
         Column(
             modifier = Modifier.padding(16.dp),
@@ -124,12 +127,11 @@ fun MainScreen(
                     text = it,
                     fontSize = 14.sp,
                     color = Color(0xFFF5276C)
-                    )
+                )
             }
         }
 
-        Spacer(modifier = Modifier.weight(1f))
-
+        Spacer(modifier = Modifier.height(24.dp))
         Column(
             modifier = Modifier.padding(bottom = 50.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -140,7 +142,6 @@ fun MainScreen(
         }
     }
 }
-
 @Composable
 fun ContactRow(icon: ImageVector, text: String) {
     Row(
@@ -151,7 +152,7 @@ fun ContactRow(icon: ImageVector, text: String) {
             imageVector = icon,
             contentDescription = null,
             tint = Color(0xFFF5276C)
-            )
+        )
         Text(
             text = text,
             color = Color(0xFFF5276C)
