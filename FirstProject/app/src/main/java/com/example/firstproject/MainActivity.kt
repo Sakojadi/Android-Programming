@@ -1,21 +1,27 @@
 package com.example.firstproject
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,65 +29,145 @@ import androidx.compose.ui.unit.sp
 import com.example.firstproject.ui.theme.FirstProjectTheme
 
 class MainActivity : ComponentActivity() {
+    private val logs = mutableStateListOf<String>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        Log.d("MainActivity", "onCreate")
+        logs.add("onCreate")
+
         setContent {
             FirstProjectTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    GreetingImage(
-                        message = "Happy Birthday",
-                        from = "From Sako",
-                        modifier = Modifier.padding(8.dp)
+                Scaffold(modifier = Modifier.fillMaxSize()) { padding ->
+                    MainScreen(
+                        logs = logs,
+                        modifier = Modifier
+                            .padding(padding)
+                            .fillMaxSize()
+                            .background(Color(0xFFFEB3DB))
                     )
                 }
             }
         }
     }
-}
 
-@Composable
-fun Greeting(message: String, from: String, modifier: Modifier = Modifier) {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        modifier = modifier
-    ) {
-        Text(
-            text = message,
-            fontSize = 100.sp,
-            lineHeight = 110.sp,
-            textAlign = TextAlign.Center
-        )
-        Text(
-            text = from,
-            fontSize = 30.sp,
-            modifier = Modifier
-                .padding(16.dp)
-        )
+    override fun onStart() {
+        super.onStart()
+        Log.d("MainActivity", "onStart")
+        logs.add("onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("MainActivity", "onResume")
+        logs.add("onResume")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("MainActivity", "onStop")
+        logs.add("onStop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("MainActivity", "onDestroy")
+        logs.add("onDestroy")
     }
 }
 
+@Composable
+fun MainScreen(
+    logs: List<String>,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .padding(top = 200.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+        Spacer(modifier = Modifier.height(40.dp))
+
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Image(
+                painter = painterResource(R.drawable.barbie),
+                contentDescription = null,
+                modifier = Modifier.size(120.dp)
+            )
+
+            Text(
+                text = "Barbara Millicent Roberts",
+                fontSize = 28.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFFF5276C)
+            )
+
+            Text(
+                text = "Im a Barbie Girl",
+                fontSize = 16.sp,
+                color = Color(0xFFF5276C),
+                textAlign = TextAlign.Center
+            )
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Column(
+            modifier = Modifier.padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            logs.forEach {
+                Text(
+                    text = it,
+                    fontSize = 14.sp,
+                    color = Color(0xFFF5276C)
+                    )
+            }
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        Column(
+            modifier = Modifier.padding(bottom = 50.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            ContactRow(Icons.Filled.Phone, "+996 777 777 777")
+            ContactRow(Icons.Filled.Share, "@nasipagulnuri")
+            ContactRow(Icons.Filled.Email, "website@pupsiki.com")
+        }
+    }
+}
+
+@Composable
+fun ContactRow(icon: ImageVector, text: String) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = Color(0xFFF5276C)
+            )
+        Text(
+            text = text,
+            color = Color(0xFFF5276C)
+        )
+    }
+}
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun PreviewMainScreen() {
     FirstProjectTheme {
-        GreetingImage(
-            message = "Happy Birthday",
-            from = "From Sako",
-            modifier = Modifier.padding(8.dp)
+        MainScreen(
+            logs = listOf("onCreate", "onStart", "onResume"),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color(0xFFFEB3DB))
         )
-    }
-}
-@Composable
-fun GreetingImage(message: String, from: String, modifier: Modifier){
-    val image = painterResource(R.drawable.androidparty)
-    Box(modifier){
-        Image(
-            painter = image,
-            contentDescription = null,
-            contentScale = ContentScale.Crop
-        )
-        Greeting(message = message, from = from, modifier = modifier)
     }
 }
