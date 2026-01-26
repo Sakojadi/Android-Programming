@@ -14,6 +14,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -84,6 +86,7 @@ fun MainScreen(
     logs: List<String>,
     modifier: Modifier = Modifier
 ) {
+    var counter by remember { mutableIntStateOf(0) }
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -114,6 +117,29 @@ fun MainScreen(
                 color = Color(0xFFF5276C),
                 textAlign = TextAlign.Center
             )
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = counter.toString(),
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFFF5276C)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Button(
+                onClick = {
+                    counter++
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.White,
+                )
+            ) {
+                Text(
+                    "Click me 💖",
+                    color = Color(0xFFF5276C)
+                )
+            }
         }
 
         Spacer(modifier = Modifier.height(150.dp))
