@@ -4,25 +4,23 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.firstproject.ui.theme.FirstProjectTheme
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.graphics.Color
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,9 +29,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             FirstProjectTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                    GreetingImage(
+                        message = "Happy Birthday",
+                        from = "From Sako",
+                        modifier = Modifier.padding(8.dp)
                     )
                 }
             }
@@ -42,57 +41,23 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    var countLow by remember { mutableStateOf(0) }
-    var countMedium by remember { mutableStateOf(0) }
-    var countHigh by remember { mutableStateOf(0) }
-    var last by remember { mutableStateOf("None") }
-    var colorText by remember { mutableStateOf(Color.Black) }
-    Row(horizontalArrangement = Arrangement.SpaceEvenly) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(
-                text = "Count: $countLow",
-                modifier = modifier,
-                color = Color.Red
-            )
-            Button(onClick = {
-                countLow++
-                last = "Low"
-                colorText = Color.Red
-            },
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
-                ) { Text("Low") }
-        }
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(
-                text = "Count: $countMedium",
-                modifier = modifier,
-                color = Color.Blue,
-            )
-            Button(onClick = {
-                countMedium++
-                last = "Medium"
-                colorText = Color.Blue
-            },
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Blue)
-            )
-            { Text("Medium") }
-            Text(text = "Last Clicked Button $last", color = colorText)
-        }
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(
-                text = "Count: $countHigh",
-                modifier = modifier,
-                color = Color.Green
-            )
-            Button(onClick = {
-                countHigh++
-                last = "High"
-                colorText = Color.Green
-            },
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Green)
-                ) { Text("High") }
-        }
+fun Greeting(message: String, from: String, modifier: Modifier = Modifier) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        modifier = modifier
+    ) {
+        Text(
+            text = message,
+            fontSize = 100.sp,
+            lineHeight = 110.sp,
+            textAlign = TextAlign.Center
+        )
+        Text(
+            text = from,
+            fontSize = 30.sp,
+            modifier = Modifier
+                .padding(16.dp)
+        )
     }
 }
 
@@ -101,6 +66,22 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     FirstProjectTheme {
-        Greeting("Android")
+        GreetingImage(
+            message = "Happy Birthday",
+            from = "From Sako",
+            modifier = Modifier.padding(8.dp)
+        )
+    }
+}
+@Composable
+fun GreetingImage(message: String, from: String, modifier: Modifier){
+    val image = painterResource(R.drawable.androidparty)
+    Box(modifier){
+        Image(
+            painter = image,
+            contentDescription = null,
+            contentScale = ContentScale.Crop
+        )
+        Greeting(message = message, from = from, modifier = modifier)
     }
 }
